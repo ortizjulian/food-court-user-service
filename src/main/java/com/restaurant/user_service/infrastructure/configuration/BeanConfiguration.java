@@ -1,10 +1,12 @@
 package com.restaurant.user_service.infrastructure.configuration;
 
 
+import com.restaurant.user_service.domain.api.IAuthenticationServicePort;
 import com.restaurant.user_service.domain.api.IUserServicePort;
 import com.restaurant.user_service.domain.spi.IRolePersistencePort;
 import com.restaurant.user_service.domain.spi.ISecurityPersistencePort;
 import com.restaurant.user_service.domain.spi.IUserPersistencePort;
+import com.restaurant.user_service.domain.usecase.AuthenticationUseCase;
 import com.restaurant.user_service.domain.usecase.UserUseCase;
 import com.restaurant.user_service.infrastructure.output.jpa.adapter.RoleJpaAdapter;
 import com.restaurant.user_service.infrastructure.output.jpa.adapter.UserJpaAdapter;
@@ -51,6 +53,11 @@ public class BeanConfiguration {
     @Bean
     public IUserPersistencePort userPersistencePort(){
         return new UserJpaAdapter(userRepository,userEntityMapper,roleRepository);
+    }
+
+    @Bean
+    public IAuthenticationServicePort authenticationServicePort() throws Exception {
+        return new AuthenticationUseCase(userPersistencePort(),securityPersistencePort() );
     }
 
     @Bean

@@ -1,10 +1,9 @@
 package com.restaurant.user_service.infrastructure.exceptionhandler;
 
 
-import com.restaurant.user_service.domain.exceptions.AgeNotValidException;
-import com.restaurant.user_service.domain.exceptions.DocumentAlreadyExistsException;
-import com.restaurant.user_service.domain.exceptions.EmailAlreadyExistsException;
-import com.restaurant.user_service.domain.exceptions.RoleNotFoundException;
+import com.restaurant.user_service.domain.exceptions.*;
+import com.restaurant.user_service.infrastructure.exceptions.AuthenticationException;
+import com.restaurant.user_service.infrastructure.exceptions.InvalidCredentialsException;
 import com.restaurant.user_service.utils.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,6 @@ import java.util.Map;
 public class ControllerAdvisor {
 
     private static final String MESSAGE = Constants.RESPONSE_MESSAGE_KEY;
-
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException methodArgumentNotValidException) {
@@ -59,6 +56,24 @@ public class ControllerAdvisor {
     public ResponseEntity<Object> handleEmailAlreadyExistsException(EmailAlreadyExistsException emailAlreadyExistsException) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Collections.singletonMap(MESSAGE, emailAlreadyExistsException.getMessage()));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException userNotFound) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.USER_NOT_FOUND.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Object> handleInvalidCredentialsException(InvalidCredentialsException invalidCredentials) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_CREDENTIALS.getMessage()));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Object> handleAuthenticationException(AuthenticationException authenticationException) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.AUTHENTICATION_EXCEPTION.getMessage()));
     }
 
     @ExceptionHandler(DocumentAlreadyExistsException.class)
