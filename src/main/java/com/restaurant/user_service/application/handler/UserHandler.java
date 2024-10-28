@@ -18,14 +18,20 @@ public class UserHandler implements IUserHandler {
     private final RegisterDtoRequestMapper registerDtoRequestMapper;
 
     @Override
-    public User registerOwner(RegisterDtoRequest registerDtoRequest) {
+    public void registerOwner(RegisterDtoRequest registerDtoRequest) {
         User user = registerDtoRequestMapper.registerDtoRequestToUser(registerDtoRequest);
-        return userServicePort.registerOwner(user);
+        userServicePort.registerOwner(user);
     }
 
     @Override
     public void registerEmployee(RegisterDtoRequest registerRequest) {
         User user = registerDtoRequestMapper.registerDtoRequestToUser(registerRequest);
         userServicePort.registerEmployee(user);
+    }
+
+    @Override
+    public void registerClient(RegisterDtoRequest registerRequest) {
+        User user = registerDtoRequestMapper.registerDtoRequestToUser(registerRequest);
+        userServicePort.registerClient(user);
     }
 }
