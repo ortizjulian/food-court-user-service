@@ -1,4 +1,4 @@
-package com.restaurant.user_service.usecase;
+package com.restaurant.user_service.domain.usecase;
 
 import com.restaurant.user_service.domain.exceptions.AgeNotValidException;
 import com.restaurant.user_service.domain.exceptions.DocumentAlreadyExistsException;
@@ -8,7 +8,6 @@ import com.restaurant.user_service.domain.model.User;
 import com.restaurant.user_service.domain.spi.IRolePersistencePort;
 import com.restaurant.user_service.domain.spi.ISecurityPersistencePort;
 import com.restaurant.user_service.domain.spi.IUserPersistencePort;
-import com.restaurant.user_service.domain.usecase.UserUseCase;
 import com.restaurant.user_service.utils.SecurityConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -135,5 +134,26 @@ class UserUseCaseTest {
 
     }
 
+    @Test
+    void AuthenticationUseCase_RegisterEmployee_WhenCalled_ShouldCallSaveOnPersistencePort() {
+        User user = new User(
+                null,
+                "Julian",
+                "Ortiz",
+                "SEGURA",
+                "julian.empleado@gmail.com",
+                "10203040",
+                "192939",
+                LocalDate.of(2000, 10, 10),
+                null
+        );
+        Mockito.when(userPersistencePort.existsByEmail("julian.empleado@gmail.com")).thenReturn(false);
+        Mockito.when(userPersistencePort.existsByDocument("10203040")).thenReturn(false);
+        Mockito.when(securityPersistencePort.encryptPassword("SEGURA")).thenReturn("encryptedPassword");
+        Mockito.when(userPersistencePort.register(user)).thenReturn(user);
+        Mockito.when(rolePersistencePort.findByName(SecurityConstants.ROLE_EMPLOYEE)).thenReturn(Optional.of(new Role(1L, "Empleado", "Rol Empleado")));
 
+        User registeredUser = userUseCase.registerEmployee(user);
+        assertEquals(user, registeredUser);
+    }
 }

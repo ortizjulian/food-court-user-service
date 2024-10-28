@@ -21,9 +21,9 @@ public class SecurityConstants
     //Roles names
     public static final String ROLE_OWNER = "Propietario";
     public static final String ROLE_ADMIN = "Administrador";
+    public static final String ROLE_EMPLOYEE = "Empleado";
 
     //Auth
     public static final String EXCEPTION_INVALID_CREDENTIALS = "Invalid credentials provided";
     public static final String EXCEPTION_AUTHENTICATION_EXCEPTION = "Authentication exception occurred";
-    public static final String EXCEPTION_ACCESS_DENIED= "Access Denied";
 }
