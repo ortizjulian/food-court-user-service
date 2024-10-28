@@ -55,6 +55,22 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Operation(
+            summary = "Register a new client",
+            description = "This endpoint allows the registration of a client."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User successfully registered"),
+            @ApiResponse(responseCode = "404", description = "Role not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid request, check the submitted data"),
+            @ApiResponse(responseCode = "409", description = "Email or document already exists")
+    })
+    @PostMapping("/register/client")
+    public ResponseEntity<Void> registerClient(@Valid @RequestBody RegisterDtoRequest registerRequest) {
+        userHandler.registerClient(registerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
 
 
 }

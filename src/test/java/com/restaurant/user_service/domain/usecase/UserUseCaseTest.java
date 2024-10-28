@@ -156,4 +156,27 @@ class UserUseCaseTest {
         User registeredUser = userUseCase.registerEmployee(user);
         assertEquals(user, registeredUser);
     }
+
+    @Test
+    void AuthenticationUseCase_RegisterClient_WhenCalled_ShouldCallSaveOnPersistencePort() {
+        User user = new User(
+                null,
+                "Julian",
+                "Ortiz",
+                "SEGURA",
+                "julian.cliente@gmail.com",
+                "10203040",
+                "192939",
+                LocalDate.of(2000, 10, 10),
+                null
+        );
+        Mockito.when(userPersistencePort.existsByEmail("julian.cliente@gmail.com")).thenReturn(false);
+        Mockito.when(userPersistencePort.existsByDocument("10203040")).thenReturn(false);
+        Mockito.when(securityPersistencePort.encryptPassword("SEGURA")).thenReturn("encryptedPassword");
+        Mockito.when(userPersistencePort.register(user)).thenReturn(user);
+        Mockito.when(rolePersistencePort.findByName(SecurityConstants.ROLE_CLIENT)).thenReturn(Optional.of(new Role(1L, "Cliente", "Rol Cliente")));
+
+        User registeredUser = userUseCase.registerClient(user);
+        assertEquals(user, registeredUser);
+    }
 }

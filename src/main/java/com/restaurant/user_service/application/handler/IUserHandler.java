@@ -2,9 +2,10 @@ package com.restaurant.user_service.application.handler;
 
 
 import com.restaurant.user_service.application.dto.RegisterDtoRequest;
-import com.restaurant.user_service.domain.model.User;
 
 public interface IUserHandler {
-    User registerOwner(RegisterDtoRequest registerDtoRequest);
+    void registerOwner(RegisterDtoRequest registerDtoRequest);
     void registerEmployee(RegisterDtoRequest registerRequest);
+
+    void registerClient(RegisterDtoRequest registerRequest);
 }
