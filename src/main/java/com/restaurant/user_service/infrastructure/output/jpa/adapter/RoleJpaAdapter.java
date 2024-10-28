@@ -14,10 +14,6 @@ import java.util.Optional;
 public class RoleJpaAdapter implements IRolePersistencePort {
     private final IRoleRepository roleRepository;
     private final RoleEntityMapper roleEntityMapper;
-    @Override
-    public Boolean existsById(Long roleId) {
-        return roleRepository.existsById(roleId);
-    }
 
     @Override
     public Optional<Role> findByName(String roleName) {
