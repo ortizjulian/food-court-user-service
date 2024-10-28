@@ -22,4 +22,10 @@ public class UserHandler implements IUserHandler {
         User user = registerDtoRequestMapper.registerDtoRequestToUser(registerDtoRequest);
         return userServicePort.registerOwner(user);
     }
+
+    @Override
+    public void registerEmployee(RegisterDtoRequest registerRequest) {
+        User user = registerDtoRequestMapper.registerDtoRequestToUser(registerRequest);
+        userServicePort.registerEmployee(user);
+    }
 }

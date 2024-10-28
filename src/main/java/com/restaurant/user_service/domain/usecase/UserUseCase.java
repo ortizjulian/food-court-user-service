@@ -56,4 +56,9 @@ public class UserUseCase implements IUserServicePort {
         return this.register(user, SecurityConstants.ROLE_OWNER);
     }
 
+    @Override
+    public User registerEmployee(User user) {
+       return this.register(user, SecurityConstants.ROLE_EMPLOYEE);
+    }
+
 }
