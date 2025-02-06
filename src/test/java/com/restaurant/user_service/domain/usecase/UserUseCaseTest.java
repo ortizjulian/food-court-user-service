@@ -3,6 +3,7 @@ package com.restaurant.user_service.domain.usecase;
 import com.restaurant.user_service.domain.exceptions.AgeNotValidException;
 import com.restaurant.user_service.domain.exceptions.DocumentAlreadyExistsException;
 import com.restaurant.user_service.domain.exceptions.EmailAlreadyExistsException;
+import com.restaurant.user_service.domain.exceptions.UserNotFoundException;
 import com.restaurant.user_service.domain.model.Role;
 import com.restaurant.user_service.domain.model.User;
 import com.restaurant.user_service.domain.spi.IRolePersistencePort;
@@ -45,7 +46,7 @@ class UserUseCaseTest {
     }
 
     @Test
-    void AuthenticationUseCase_RegisterOwner_WhenCalled_ShouldCallSaveOnPersistencePort() {
+    void UserUseCase_RegisterOwner_WhenCalled_ShouldCallSaveOnPersistencePort() {
         User user = new User(
                 null,
                 "Julian",
@@ -68,7 +69,7 @@ class UserUseCaseTest {
     }
 
     @Test
-    void AuthenticationUseCase_RegisterOwner_WhenUserIsNotAdult_ShouldThrowExceptionAgeNotValid() {
+    void UserUseCase_RegisterOwner_WhenUserIsNotAdult_ShouldThrowExceptionAgeNotValid() {
         User user = new User(
                 null,
                 "Julian",
@@ -91,7 +92,7 @@ class UserUseCaseTest {
     }
 
     @Test
-    void AuthenticationUseCase_RegisterOwner_WhenEmailAlreadyExists_ShouldThrowExceptionEmailAlreadyExists() {
+    void UserUseCase_RegisterOwner_WhenEmailAlreadyExists_ShouldThrowExceptionEmailAlreadyExists() {
         User user = new User(
                 null,
                 "Julian",
@@ -112,7 +113,7 @@ class UserUseCaseTest {
     }
 
     @Test
-    void AuthenticationUseCase_RegisterOwner_WhenDocumentAlreadyExists_ShouldThrowExceptionExceptionDocumentAlreadyExists() {
+    void UserUseCase_RegisterOwner_WhenDocumentAlreadyExists_ShouldThrowExceptionExceptionDocumentAlreadyExists() {
         User user = new User(
                 null,
                 "Julian",
@@ -135,7 +136,7 @@ class UserUseCaseTest {
     }
 
     @Test
-    void AuthenticationUseCase_RegisterEmployee_WhenCalled_ShouldCallSaveOnPersistencePort() {
+    void UserUseCase_RegisterEmployee_WhenCalled_ShouldCallSaveOnPersistencePort() {
         User user = new User(
                 null,
                 "Julian",
@@ -158,7 +159,7 @@ class UserUseCaseTest {
     }
 
     @Test
-    void AuthenticationUseCase_RegisterClient_WhenCalled_ShouldCallSaveOnPersistencePort() {
+    void UserUseCase_RegisterClient_WhenCalled_ShouldCallSaveOnPersistencePort() {
         User user = new User(
                 null,
                 "Julian",
@@ -179,4 +180,28 @@ class UserUseCaseTest {
         User registeredUser = userUseCase.registerClient(user);
         assertEquals(user, registeredUser);
     }
+
+    @Test
+    void UserUseCase_GetUserPhone_WhenUserNotFound_ShouldThrowUserNotFoundException(){
+        Mockito.when(userPersistencePort.findById(5L)).thenReturn(Optional.empty());
+        assertThrows(UserNotFoundException.class, () -> {
+            userUseCase.getUserPhone(5L);
+        });
+    }
+
+    @Test
+    void UserUseCase_GetUserPhone_WhenUserFound_ShouldReturnUserPhone() {
+        Long userId = 5L;
+        String expectedPhone = "123456789";
+        User user = new User();
+        user.setId(userId);
+        user.setPhone(expectedPhone);
+
+        Mockito.when(userPersistencePort.findById(userId)).thenReturn(Optional.of(user));
+
+        String actualPhone = userUseCase.getUserPhone(userId);
+
+        assertEquals(expectedPhone, actualPhone);
+    }
+
 }

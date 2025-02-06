@@ -1,6 +1,7 @@
 package com.restaurant.user_service.infrastructure.input.rest;
 
 import com.restaurant.user_service.application.dto.RegisterDtoRequest;
+import com.restaurant.user_service.application.dto.UserPhoneResponseDto;
 import com.restaurant.user_service.application.handler.IUserHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("user")
@@ -71,6 +69,17 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
+    @Operation(
+            summary = "Get user phone number",
+            description = "Retrieves the phone number of a user given their user ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Phone number retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @GetMapping("/phone/{userId}")
+    public ResponseEntity<UserPhoneResponseDto> getUserPhone(@PathVariable Long userId){
+        return ResponseEntity.ok(userHandler.getUserPhone(userId));
+    }
 
 }
