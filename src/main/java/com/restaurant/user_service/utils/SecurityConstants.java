@@ -5,6 +5,7 @@ import static com.restaurant.user_service.utils.Constants.UTILITY_CLASS_SHOULD_N
 
 public class SecurityConstants
 {
+
     private SecurityConstants() {
         throw new UnsupportedOperationException(UTILITY_CLASS_SHOULD_NOT_BE_INSTANTIATED);
     }
@@ -17,6 +18,7 @@ public class SecurityConstants
     //Jwt Claims
     public static final String CLAIM_ROLE = "role";
     public static final String CLAIM_ID = "id";
+    public static final String CLAIM_PHONE = "phone";
 
     //Roles names
     public static final String ROLE_OWNER = "Propietario";

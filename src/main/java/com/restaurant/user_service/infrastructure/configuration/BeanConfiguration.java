@@ -83,7 +83,7 @@ public class BeanConfiguration {
                     .orElseThrow(() -> new UsernameNotFoundException(Constants.EXCEPTION_USER_NOT_FOUND));
             Set<String> role = new HashSet<>();
             role.add(userEntity.getRoleEntity().getName());
-            return new SecurityUser(userEntity.getId(),userEntity.getEmail(),userEntity.getPassword(), role);
+            return new SecurityUser(userEntity.getId(),userEntity.getEmail(),userEntity.getPassword(),userEntity.getPhone(), role);
         };
     }
 

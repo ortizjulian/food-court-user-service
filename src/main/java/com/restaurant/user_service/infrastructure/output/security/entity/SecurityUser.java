@@ -13,14 +13,17 @@ public class SecurityUser implements UserDetails {
     private Long id;
     private String email;
     private String password;
+    private String phoneNumber;
     private Set<String> roles;
 
-    public SecurityUser(Long id, String email, String password, Set<String> roles) {
+    public SecurityUser(Long id, String email, String password, String phoneNumber, Set<String> roles) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.phoneNumber = phoneNumber;
     }
+
 
     public Long getId() {
         return id;
@@ -30,12 +33,21 @@ public class SecurityUser implements UserDetails {
         this.id = id;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(SimpleGrantedAuthority::new)
                 .toList();
     }
+
 
     @Override
     public String getPassword() {

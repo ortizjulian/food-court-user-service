@@ -44,6 +44,7 @@ public class JwtTokenManager {
                 .setSubject(userDetails.getUsername())
                 .claim(SecurityConstants.CLAIM_ROLE,role )
                 .claim(SecurityConstants.CLAIM_ID, userDetails.getId())
+                .claim(SecurityConstants.CLAIM_PHONE,userDetails.getPhoneNumber())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.JWT_EXPIRATION_MS))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

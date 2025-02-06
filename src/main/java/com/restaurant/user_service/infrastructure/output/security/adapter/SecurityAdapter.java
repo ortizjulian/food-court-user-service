@@ -35,7 +35,7 @@ public class SecurityAdapter implements ISecurityPersistencePort {
     public Authentication getToken(User user) {
         Set<String> role = new HashSet<>();
         role.add(user.getRole().getName());
-        SecurityUser securityUser = new SecurityUser(user.getId(),user.getEmail(),null, role);
+        SecurityUser securityUser = new SecurityUser(user.getId(),user.getEmail(),null, user.getPhone(), role);
         return new Authentication(jwtTokenManager.getToken(securityUser));
     }
 
