@@ -30,7 +30,8 @@ public class ConfigFilter {
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll()
                                 .requestMatchers("/user/register/client").permitAll()
-                                .requestMatchers("/user/**").hasAuthority(SecurityConstants.ROLE_ADMIN)
+                                .requestMatchers("/user/register/owner").hasAuthority(SecurityConstants.ROLE_ADMIN)
+                                .requestMatchers("/user/register/employee").hasAuthority(SecurityConstants.ROLE_OWNER)
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->
