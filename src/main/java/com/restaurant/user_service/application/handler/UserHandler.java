@@ -2,6 +2,7 @@ package com.restaurant.user_service.application.handler;
 
 
 import com.restaurant.user_service.application.dto.RegisterDtoRequest;
+import com.restaurant.user_service.application.dto.UserPhoneResponseDto;
 import com.restaurant.user_service.application.mapper.RegisterDtoRequestMapper;
 import com.restaurant.user_service.domain.api.IUserServicePort;
 import com.restaurant.user_service.domain.model.User;
@@ -33,5 +34,13 @@ public class UserHandler implements IUserHandler {
     public void registerClient(RegisterDtoRequest registerRequest) {
         User user = registerDtoRequestMapper.registerDtoRequestToUser(registerRequest);
         userServicePort.registerClient(user);
+    }
+
+    @Override
+    public UserPhoneResponseDto getUserPhone(Long userId) {
+
+        String phone = userServicePort.getUserPhone(userId);
+        return new UserPhoneResponseDto(phone);
+
     }
 }

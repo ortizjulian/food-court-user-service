@@ -32,6 +32,7 @@ public class ConfigFilter {
                                 .requestMatchers("/user/register/client").permitAll()
                                 .requestMatchers("/user/register/owner").hasAuthority(SecurityConstants.ROLE_ADMIN)
                                 .requestMatchers("/user/register/employee").hasAuthority(SecurityConstants.ROLE_OWNER)
+                                .requestMatchers("/user/phone/**").hasAuthority(SecurityConstants.ROLE_EMPLOYEE)
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->

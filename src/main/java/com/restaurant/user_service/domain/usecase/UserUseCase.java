@@ -3,10 +3,7 @@ package com.restaurant.user_service.domain.usecase;
 
 
 import com.restaurant.user_service.domain.api.IUserServicePort;
-import com.restaurant.user_service.domain.exceptions.AgeNotValidException;
-import com.restaurant.user_service.domain.exceptions.DocumentAlreadyExistsException;
-import com.restaurant.user_service.domain.exceptions.EmailAlreadyExistsException;
-import com.restaurant.user_service.domain.exceptions.RoleNotFoundException;
+import com.restaurant.user_service.domain.exceptions.*;
 import com.restaurant.user_service.domain.model.Role;
 import com.restaurant.user_service.domain.model.User;
 import com.restaurant.user_service.domain.spi.IRolePersistencePort;
@@ -16,6 +13,7 @@ import com.restaurant.user_service.utils.Constants;
 import com.restaurant.user_service.utils.SecurityConstants;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Optional;
 
 public class UserUseCase implements IUserServicePort {
 
@@ -64,6 +62,17 @@ public class UserUseCase implements IUserServicePort {
     @Override
     public User registerClient(User user) {
         return this.register(user, SecurityConstants.ROLE_CLIENT);
+    }
+
+    @Override
+    public String getUserPhone(Long userId) {
+        Optional<User> user= userPersistencePort.findById(userId);
+
+        if(user.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+
+        return user.get().getPhone();
     }
 
 }

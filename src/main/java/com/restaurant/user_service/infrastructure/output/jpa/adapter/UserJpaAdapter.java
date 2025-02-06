@@ -49,4 +49,17 @@ public class UserJpaAdapter implements IUserPersistencePort {
     public Boolean existsByDocument(String document) {
         return userRepository.existsByDocument(document);
     }
+
+    @Override
+    public Optional<User> findById(Long userId) {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
+
+        if (userEntityOptional.isPresent()) {
+            UserEntity userEntity = userEntityOptional.get();
+            User user = userEntityMapper.toUser(userEntity);
+            return Optional.of(user);
+        } else {
+            return Optional.empty();
+        }
+    }
 }
